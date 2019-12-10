@@ -1,0 +1,36 @@
+@import "styles/variables";
+
+.TaskForm {
+
+  textarea {
+    background-color: #FFFFFF;
+    border-radius: $border-radius;
+    box-shadow: $box-shadow;
+    font: 14px "Arial", sans-serif;
+    margin-bottom: 10px;
+    outline: none;
+    padding: 10px;
+    resize: none;
+    width: 100%;
+
+    &::placeholder {
+      color: #999999;
+    }
+  }
+
+  button {
+    background-color: green;
+    border: none;
+    border-radius: 10px;
+    box-shadow: $box-shadow;
+    color: #FFFFFF;
+    cursor: pointer;
+    font: 16px "Arial", sans-serif;
+    outline: none;
+    padding: 10px;
+
+    &:active {
+      background-color: darkgreen;
+    }
+  }
+}

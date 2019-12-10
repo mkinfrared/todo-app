@@ -2,6 +2,7 @@ export interface Task {
   id: string;
   name: string;
   isComplete: boolean;
+  createdAt: string;
 }
 
 export type Tasks = Task[];

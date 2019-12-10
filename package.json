@@ -48,25 +48,22 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "yarn lint:styles && yarn lint:ts && yarn prettier",
     "lint:ts": "eslint --fix src/**/*.ts?(x)",
     "lint:styles": "stylelint src/**/*.scss --syntax scss --fix",
-    "prettier": "prettier --write src/**/*.ts?(x)"
+    "prettier": "prettier --write src/**/*.ts?(x)",
+    "staged": "yarn lint-staged"
   },
   "lint-staged": {
     ".(ts,tsx)": [
-      "eslint --fix src/**/*.ts?(x)",
-      "prettier --write src/**/*.ts?(x)",
+      "yarn lint:ts",
+      "yarn prettier",
       "git add ."
     ],
     ".scss": [
-      "stylelint \"**/*.scss\" --syntax scss --fix",
+      "yarn lint:styles",
       "git add ."
-    ],
-    "*": [
-      "yarn test"
     ]
   },
   "eslintConfig": {
