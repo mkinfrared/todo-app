@@ -1,13 +1,15 @@
 import { Reducer } from "redux";
 
-import { Tasks } from "store/reducers/tasks/types";
+import { Tasks, TasksActionTypes } from "store/reducers/tasks/types";
 
 const initialState: Tasks = [];
 
 const reducer: Reducer<Tasks> = (state = initialState, action) => {
-  const { type } = action;
+  const { type, payload } = action;
 
   switch (type) {
+    case TasksActionTypes.ADD_TASK_SUCCESS:
+      return [...state, payload];
     default:
       return state;
   }
