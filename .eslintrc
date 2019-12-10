@@ -25,6 +25,7 @@
     "prettier"
   ],
   "rules": {
+    "guard-for-in": 0,
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "react/prop-types": 0,
     "react/button-has-type": 0,

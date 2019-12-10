@@ -6,7 +6,7 @@ const Paginator: React.FC = () => {
   const pages: React.ReactElement[] = [];
 
   for (let i = 1; i < 11; i++) {
-    pages.push(<button>{i}</button>);
+    pages.push(<button key={i}>{i}</button>);
   }
 
   return <div className={css.Paginator}>{pages}</div>;

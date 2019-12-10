@@ -10,6 +10,8 @@ const reducer: Reducer<Tasks> = (state = initialState, action) => {
   switch (type) {
     case TasksActionTypes.ADD_TASK_SUCCESS:
       return [...state, payload];
+    case TasksActionTypes.FETCH_TASK_SUCCESS:
+      return payload;
     default:
       return state;
   }

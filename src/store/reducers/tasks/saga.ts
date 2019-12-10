@@ -1,7 +1,11 @@
 import { all, fork, put, takeEvery } from "redux-saga/effects";
 
-import { addTask, addTaskSuccess } from "store/reducers/tasks/actions";
-import { TasksActionTypes } from "store/reducers/tasks/types";
+import {
+  addTask,
+  addTaskSuccess,
+  fetchTasksSuccess
+} from "store/reducers/tasks/actions";
+import { Task, TasksActionTypes } from "store/reducers/tasks/types";
 import api from "utils/api";
 
 function* addTaskSaga(action: ReturnType<typeof addTask>) {
@@ -20,12 +24,15 @@ function* watchAddTaskSaga() {
 function* fetchTasksSaga() {
   try {
     const response = yield api.get("/tasks.json");
-    console.log(response);
+    const { data } = response;
+    const tasks = Object.values<Task>(data);
+
+    yield put(fetchTasksSuccess(tasks));
   } catch {}
 }
 
 function* watchFetchTasksSaga() {
-  takeEvery(TasksActionTypes.FETCH_TASK_REQUEST, fetchTasksSaga);
+  yield takeEvery(TasksActionTypes.FETCH_TASK_REQUEST, fetchTasksSaga);
 }
 
 function* tasksSaga() {
