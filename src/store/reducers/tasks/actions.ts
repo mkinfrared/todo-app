@@ -15,10 +15,22 @@ const fetchTasksSuccess = (tasks: Tasks) =>
 const makeTaskComplete = (id: string) =>
   action(TasksActionTypes.MAKE_TASK_COMPLETE_REQUEST, id);
 
+const editTask = (firebaseId: string, name: string, isComplete: boolean) =>
+  action(TasksActionTypes.UPDATE_TASK_REQUEST, {
+    firebaseId,
+    name,
+    isComplete
+  });
+
+const editTaskSuccess = (firebaseId: string, task: Task) =>
+  action(TasksActionTypes.UPDATE_TASK_SUCCESS, { firebaseId, ...task });
+
 export {
   addTask,
   addTaskSuccess,
   fetchTasks,
   fetchTasksSuccess,
-  makeTaskComplete
+  makeTaskComplete,
+  editTask,
+  editTaskSuccess
 };

@@ -1,4 +1,5 @@
 import { Reducer } from "redux";
+import produce from "immer";
 
 import { Tasks, TasksActionTypes } from "store/reducers/tasks/types";
 
@@ -12,6 +13,11 @@ const reducer: Reducer<Tasks> = (state = initialState, action) => {
       return { ...state, payload };
     case TasksActionTypes.FETCH_TASK_SUCCESS:
       return { ...payload };
+    case TasksActionTypes.UPDATE_TASK_SUCCESS:
+      return produce(state, draft => {
+        const { firebaseId, ...props } = payload;
+        draft[firebaseId] = { ...props };
+      });
     default:
       return state;
   }

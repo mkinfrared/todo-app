@@ -20,18 +20,6 @@
   }
 
   button {
-    background-color: green;
-    border: none;
-    border-radius: 10px;
-    box-shadow: $box-shadow;
-    color: #FFFFFF;
-    cursor: pointer;
-    font: 16px "Arial", sans-serif;
-    outline: none;
-    padding: 10px;
-
-    &:active {
-      background-color: darkgreen;
-    }
+    @extend .green-button;
   }
 }

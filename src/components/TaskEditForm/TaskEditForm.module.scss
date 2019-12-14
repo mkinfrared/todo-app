@@ -1,0 +1,43 @@
+@import "styles/variables";
+
+.TaskEditForm {
+  @extend .card;
+  background-color: gainsboro;
+
+  div {
+    align-items: center;
+    display: flex;
+
+    &:not(:last-child) {
+      margin-bottom: 10px;
+    }
+
+    label {
+      margin-right: 10px;
+    }
+
+    input[type="text"] {
+      padding: 5px;
+      width: 100%;
+    }
+  }
+
+  .buttonGroup {
+    align-items: center;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+
+    button {
+      @extend .green-button;
+    }
+
+    .cancelButton {
+      background-color: red;
+
+      &:active {
+        background-color: darkred;
+      }
+    }
+  }
+}

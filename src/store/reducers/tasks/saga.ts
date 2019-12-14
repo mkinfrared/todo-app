@@ -2,10 +2,15 @@ import { all, fork, put, select, takeEvery } from "redux-saga/effects";
 
 import {
   addTask,
+  editTask,
+  editTaskSuccess,
   fetchTasksSuccess,
   makeTaskComplete
 } from "store/reducers/tasks/actions";
-import { getTaskSelector } from "store/reducers/tasks/selectors";
+import {
+  findTaskSelector,
+  getTaskSelector
+} from "store/reducers/tasks/selectors";
 import { TasksActionTypes } from "store/reducers/tasks/types";
 import api from "utils/api";
 
@@ -37,8 +42,8 @@ function* watchAddTaskSaga() {
 
 function* makeTaskCompleteSaga(action: ReturnType<typeof makeTaskComplete>) {
   const { payload } = action;
-  const entry: ReturnType<typeof getTaskSelector> = yield select(state =>
-    getTaskSelector(state, payload)
+  const entry: ReturnType<typeof findTaskSelector> = yield select(state =>
+    findTaskSelector(state, payload)
   );
 
   if (!entry) return;
@@ -59,11 +64,35 @@ function* watchMakeTaskCompleteSaga() {
   );
 }
 
+function* editTaskSaga(action: ReturnType<typeof editTask>) {
+  const { payload } = action;
+  const { firebaseId, isComplete, name } = payload;
+  const task: ReturnType<typeof getTaskSelector> = yield select(state =>
+    getTaskSelector(state, firebaseId)
+  );
+
+  const draftTask = { ...task, isComplete, name };
+
+  try {
+    yield api.put(
+      `/tasks/${payload.firebaseId}.json`,
+      JSON.stringify(draftTask)
+    );
+
+    yield put(editTaskSuccess(firebaseId, draftTask));
+  } catch {}
+}
+
+function* watchEditTaskSaga() {
+  yield takeEvery(TasksActionTypes.UPDATE_TASK_REQUEST, editTaskSaga);
+}
+
 function* tasksSaga() {
   yield all([
     fork(watchAddTaskSaga),
     fork(watchFetchTasksSaga),
-    fork(watchMakeTaskCompleteSaga)
+    fork(watchMakeTaskCompleteSaga),
+    fork(watchEditTaskSaga)
   ]);
 }
 
