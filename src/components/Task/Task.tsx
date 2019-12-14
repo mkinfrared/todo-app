@@ -1,12 +1,40 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 
-import { TaskProp } from "components/TaskList/Task.type";
+import Delete from "icons/Delete";
+import Done from "icons/Done";
+import Edit from "icons/Edit";
+import { TaskProp } from "components/Task/Task.type";
 import css from "components/Task/Task.module.scss";
+import { makeTaskComplete } from "store/reducers/tasks/actions";
 
-const Task: React.FC<TaskProp> = ({ name }) => {
+const Task: React.FC<TaskProp> = ({ id, name, isComplete, firebaseId }) => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleDoneClick = () => {
+    dispatch(makeTaskComplete(id));
+  };
+
+  const handleEditClick = () => {
+    history.push(`/edit/${firebaseId}`);
+  };
+
   return (
-    <div className={css.Task}>
+    <div className={`${isComplete ? css.complete : css.Task}`}>
       <p>{name}</p>
+      <div>
+        <div className={css.done} onClick={handleDoneClick}>
+          <Done />
+        </div>
+        <div className={css.edit} onClick={handleEditClick}>
+          <Edit />
+        </div>
+        <div className={css.delete}>
+          <Delete />
+        </div>
+      </div>
     </div>
   );
 };

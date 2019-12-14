@@ -4,6 +4,58 @@
   background-color: #FFFFFF;
   border-radius: $border-radius;
   box-shadow: $box-shadow;
+  display: flex;
+  justify-content: space-between;
   margin-bottom: 10px;
   padding: 10px;
+
+  &:hover {
+
+    > div {
+
+      > div {
+        opacity: 1;
+      }
+    }
+  }
+
+  > div {
+    display: flex;
+
+    > div {
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.4s linear;
+
+      &:not(last-child) {
+        margin-right: 5px;
+      }
+
+      &.done {
+
+        > svg {
+          fill: green;
+        }
+      }
+
+      &.edit {
+
+        > svg {
+          fill: #B6B600;
+        }
+      }
+
+      &.delete {
+
+        > svg {
+          fill: darkred;
+        }
+      }
+    }
+  }
+}
+
+.complete {
+  @extend .Task;
+  background-color: lightgreen;
 }

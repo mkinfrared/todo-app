@@ -12,4 +12,13 @@ const fetchTasks = () => action(TasksActionTypes.FETCH_TASK_REQUEST);
 const fetchTasksSuccess = (tasks: Tasks) =>
   action(TasksActionTypes.FETCH_TASK_SUCCESS, tasks);
 
-export { addTask, addTaskSuccess, fetchTasks, fetchTasksSuccess };
+const makeTaskComplete = (id: string) =>
+  action(TasksActionTypes.MAKE_TASK_COMPLETE_REQUEST, id);
+
+export {
+  addTask,
+  addTaskSuccess,
+  fetchTasks,
+  fetchTasksSuccess,
+  makeTaskComplete
+};

@@ -6,23 +6,35 @@ import TaskForm from "components/TaskForm";
 import Task from "components/Task";
 import css from "components/TaskList/TaskList.module.scss";
 import { fetchTasks } from "store/reducers/tasks/actions";
-import getTaskSelector from "store/reducers/tasks/selectors";
+import { getTasksSelector } from "store/reducers/tasks/selectors";
 
 const TaskList: React.FC = () => {
   const dispatch = useDispatch();
-  const storeTasks = useSelector(getTaskSelector);
+  const tasksEntries = useSelector(getTasksSelector);
 
   useEffect(() => {
     dispatch(fetchTasks());
   }, []);
 
-  const tasks = storeTasks.map(task => <Task key={task.id} name={task.name} />);
+  const tasks = tasksEntries.map(entry => {
+    const [firebaseId, task] = entry;
+
+    return (
+      <Task
+        key={task.id}
+        id={task.id}
+        firebaseId={firebaseId}
+        name={task.name}
+        isComplete={task.isComplete}
+      />
+    );
+  });
 
   return (
     <div className={css.TaskList}>
-      <h1>Задачи</h1>
-      {tasks}
+      <h1>Tasks</h1>
       <TaskForm />
+      {tasks}
       <Paginator />
     </div>
   );
