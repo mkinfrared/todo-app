@@ -18,6 +18,11 @@ const reducer: Reducer<Tasks> = (state = initialState, action) => {
         const { firebaseId, ...props } = payload;
         draft[firebaseId] = { ...props };
       });
+    case TasksActionTypes.DELETE_TASK_SUCCESS:
+      return produce(state, draft => {
+        const { firebaseId, ...props } = payload;
+        draft[firebaseId] = { ...props };
+      });
     default:
       return state;
   }

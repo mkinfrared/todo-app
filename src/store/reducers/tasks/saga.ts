@@ -2,6 +2,7 @@ import { all, fork, put, select, takeEvery } from "redux-saga/effects";
 
 import {
   addTask,
+  deleteTask,
   editTask,
   editTaskSuccess,
   fetchTasksSuccess,
@@ -87,12 +88,27 @@ function* watchEditTaskSaga() {
   yield takeEvery(TasksActionTypes.UPDATE_TASK_REQUEST, editTaskSaga);
 }
 
+function* deleteTaskSaga(action: ReturnType<typeof deleteTask>) {
+  const { payload } = action;
+
+  try {
+    yield api.delete(`/tasks/${payload}.json`);
+
+    yield fetchTasksSaga();
+  } catch {}
+}
+
+function* watchDeleteTaskSaga() {
+  yield takeEvery(TasksActionTypes.DELETE_TASK_REQUEST, deleteTaskSaga);
+}
+
 function* tasksSaga() {
   yield all([
     fork(watchAddTaskSaga),
     fork(watchFetchTasksSaga),
     fork(watchMakeTaskCompleteSaga),
-    fork(watchEditTaskSaga)
+    fork(watchEditTaskSaga),
+    fork(watchDeleteTaskSaga)
   ]);
 }
 

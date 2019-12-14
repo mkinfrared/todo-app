@@ -25,6 +25,12 @@ const editTask = (firebaseId: string, name: string, isComplete: boolean) =>
 const editTaskSuccess = (firebaseId: string, task: Task) =>
   action(TasksActionTypes.UPDATE_TASK_SUCCESS, { firebaseId, ...task });
 
+const deleteTask = (firebaseId: string) =>
+  action(TasksActionTypes.DELETE_TASK_REQUEST, firebaseId);
+
+const deleteTaskSuccess = (firebaseId: string, task: Task) =>
+  action(TasksActionTypes.DELETE_TASK_SUCCESS, { firebaseId, ...task });
+
 export {
   addTask,
   addTaskSuccess,
@@ -32,5 +38,7 @@ export {
   fetchTasksSuccess,
   makeTaskComplete,
   editTask,
-  editTaskSuccess
+  editTaskSuccess,
+  deleteTask,
+  deleteTaskSuccess
 };

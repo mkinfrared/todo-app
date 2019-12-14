@@ -7,7 +7,7 @@ import Done from "icons/Done";
 import Edit from "icons/Edit";
 import { TaskProp } from "components/Task/Task.type";
 import css from "components/Task/Task.module.scss";
-import { makeTaskComplete } from "store/reducers/tasks/actions";
+import { deleteTask, makeTaskComplete } from "store/reducers/tasks/actions";
 
 const Task: React.FC<TaskProp> = ({ id, name, isComplete, firebaseId }) => {
   const dispatch = useDispatch();
@@ -21,6 +21,10 @@ const Task: React.FC<TaskProp> = ({ id, name, isComplete, firebaseId }) => {
     history.push(`/edit/${firebaseId}`);
   };
 
+  const handleDeleteClick = () => {
+    dispatch(deleteTask(firebaseId));
+  };
+
   return (
     <div className={`${isComplete ? css.complete : css.Task}`}>
       <p>{name}</p>
@@ -31,7 +35,7 @@ const Task: React.FC<TaskProp> = ({ id, name, isComplete, firebaseId }) => {
         <div className={css.edit} onClick={handleEditClick}>
           <Edit />
         </div>
-        <div className={css.delete}>
+        <div className={css.delete} onClick={handleDeleteClick}>
           <Delete />
         </div>
       </div>
