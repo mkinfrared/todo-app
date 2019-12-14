@@ -23,6 +23,7 @@ const TaskForm: React.FC = () => {
     };
 
     dispatch(addTask(task));
+    setInputText("");
   };
 
   return (

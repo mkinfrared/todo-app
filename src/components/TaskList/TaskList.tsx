@@ -1,6 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
+import { TaskListParams } from "components/TaskList/TaskList.type";
 import Paginator from "components/Paginator";
 import TaskForm from "components/TaskForm";
 import Task from "components/Task";
@@ -9,8 +11,11 @@ import { getTasksSelector } from "store/reducers/tasks/selectors";
 
 const TaskList: React.FC = () => {
   const tasksEntries = useSelector(getTasksSelector);
+  const { page } = useParams<TaskListParams>();
+  const endIndex = +page * 10;
+  const startIndex = endIndex - 10;
 
-  const tasks = tasksEntries.map(entry => {
+  const tasks = tasksEntries.slice(startIndex, endIndex).map(entry => {
     const [firebaseId, task] = entry;
 
     return (

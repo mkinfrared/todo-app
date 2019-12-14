@@ -1,4 +1,14 @@
 .Paginator {
+  display: flex;
+  justify-content: center;
   margin: 20px 0;
-  text-align: center;
+
+  a {
+    background-color: palevioletred;
+    color: #FFFFFF;
+    display: inline-block;
+    margin: 0 5px;
+    padding: 5px;
+    text-decoration: none;
+  }
 }
