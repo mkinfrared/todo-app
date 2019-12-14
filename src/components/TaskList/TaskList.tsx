@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -10,10 +10,19 @@ import css from "components/TaskList/TaskList.module.scss";
 import { getTasksSelector } from "store/reducers/tasks/selectors";
 
 const TaskList: React.FC = () => {
-  const tasksEntries = useSelector(getTasksSelector);
+  const [sortAsc, setSortAsc] = useState(true);
+  const tasksEntries = [...useSelector(getTasksSelector)];
   const { page } = useParams<TaskListParams>();
   const endIndex = +page * 10;
   const startIndex = endIndex - 10;
+
+  if (!sortAsc) {
+    tasksEntries.reverse();
+  }
+
+  const handleSortClick = () => {
+    setSortAsc(prevState => !prevState);
+  };
 
   const tasks = tasksEntries.slice(startIndex, endIndex).map(entry => {
     const [firebaseId, task] = entry;
@@ -33,6 +42,7 @@ const TaskList: React.FC = () => {
     <div className={css.TaskList}>
       <h1>Tasks</h1>
       <TaskForm />
+      <button onClick={handleSortClick}>{sortAsc ? "Latest" : "Oldest"}</button>
       {tasks}
       <Paginator />
     </div>
