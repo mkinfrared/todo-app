@@ -6,7 +6,8 @@ import {
   editTask,
   editTaskSuccess,
   fetchTasksSuccess,
-  makeTaskComplete
+  makeTaskComplete,
+  makeTaskCompleteSuccess
 } from "store/reducers/tasks/actions";
 import {
   findTaskSelector,
@@ -43,18 +44,15 @@ function* watchAddTaskSaga() {
 
 function* makeTaskCompleteSaga(action: ReturnType<typeof makeTaskComplete>) {
   const { payload } = action;
-  const entry: ReturnType<typeof findTaskSelector> = yield select(state =>
+  const task: ReturnType<typeof getTaskSelector> = yield select(state =>
     findTaskSelector(state, payload)
   );
 
-  if (!entry) return;
-  const [firebaseId, task] = entry;
-
-  task.isComplete = true;
+  const draftTask = { ...task, isComplete: true };
 
   try {
-    yield api.put(`/tasks/${firebaseId}.json`, task);
-    yield fetchTasksSaga();
+    yield api.put(`/tasks/${payload}.json`, draftTask);
+    yield put(makeTaskCompleteSuccess(payload));
   } catch {}
 }
 

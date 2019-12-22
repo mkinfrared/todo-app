@@ -25,17 +25,9 @@ const TaskList: React.FC = () => {
   };
 
   const tasks = tasksEntries.slice(startIndex, endIndex).map(entry => {
-    const [firebaseId, task] = entry;
+    const [firebaseId] = entry;
 
-    return (
-      <Task
-        key={task.id}
-        id={task.id}
-        firebaseId={firebaseId}
-        name={task.name}
-        isComplete={task.isComplete}
-      />
-    );
+    return <Task key={firebaseId} firebaseId={firebaseId} />;
   });
 
   return (

@@ -23,6 +23,10 @@ const reducer: Reducer<Tasks> = (state = initialState, action) => {
         const { firebaseId, ...props } = payload;
         draft[firebaseId] = { ...props };
       });
+    case TasksActionTypes.MAKE_TASK_COMPLETE_SUCCESS:
+      return produce(state, draft => {
+        draft[payload].isComplete = true;
+      });
     default:
       return state;
   }

@@ -1,5 +1,5 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 import Delete from "icons/Delete";
@@ -8,26 +8,31 @@ import Edit from "icons/Edit";
 import { TaskProp } from "components/Task/Task.type";
 import css from "components/Task/Task.module.scss";
 import { deleteTask, makeTaskComplete } from "store/reducers/tasks/actions";
+import { getTaskSelector } from "store/reducers/tasks/selectors";
+import { AppState } from "store/store.type";
 
-const Task: React.FC<TaskProp> = ({ id, name, isComplete, firebaseId }) => {
+const Task: React.FC<TaskProp> = ({ firebaseId }) => {
   const dispatch = useDispatch();
+  const task = useSelector<AppState, ReturnType<typeof getTaskSelector>>(
+    state => getTaskSelector(state, firebaseId)
+  );
   const history = useHistory();
 
-  const handleDoneClick = () => {
-    dispatch(makeTaskComplete(id));
-  };
+  const handleDoneClick = useCallback(() => {
+    dispatch(makeTaskComplete(firebaseId));
+  }, [dispatch, firebaseId]);
 
-  const handleEditClick = () => {
+  const handleEditClick = useCallback(() => {
     history.push(`/edit/${firebaseId}`);
-  };
+  }, [firebaseId, history]);
 
-  const handleDeleteClick = () => {
+  const handleDeleteClick = useCallback(() => {
     dispatch(deleteTask(firebaseId));
-  };
+  }, [dispatch, firebaseId]);
 
   return (
-    <div className={`${isComplete ? css.complete : css.Task}`}>
-      <p>{name}</p>
+    <div className={`${task.isComplete ? css.complete : css.Task}`}>
+      <p>{task.name}</p>
       <div>
         <div className={css.done} onClick={handleDoneClick}>
           <Done />

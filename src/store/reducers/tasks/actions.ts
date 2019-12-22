@@ -12,8 +12,11 @@ const fetchTasks = () => action(TasksActionTypes.FETCH_TASK_REQUEST);
 const fetchTasksSuccess = (tasks: Tasks) =>
   action(TasksActionTypes.FETCH_TASK_SUCCESS, tasks);
 
-const makeTaskComplete = (id: string) =>
-  action(TasksActionTypes.MAKE_TASK_COMPLETE_REQUEST, id);
+const makeTaskComplete = (firebsaeId: string) =>
+  action(TasksActionTypes.MAKE_TASK_COMPLETE_REQUEST, firebsaeId);
+
+const makeTaskCompleteSuccess = (firebaseId: string) =>
+  action(TasksActionTypes.MAKE_TASK_COMPLETE_SUCCESS, firebaseId);
 
 const editTask = (firebaseId: string, name: string, isComplete: boolean) =>
   action(TasksActionTypes.UPDATE_TASK_REQUEST, {
@@ -37,6 +40,7 @@ export {
   fetchTasks,
   fetchTasksSuccess,
   makeTaskComplete,
+  makeTaskCompleteSuccess,
   editTask,
   editTaskSuccess,
   deleteTask,
